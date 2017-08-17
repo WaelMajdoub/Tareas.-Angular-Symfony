@@ -1,0 +1,47 @@
+<div class="col-md-12">
+    <div class="loader" *ngIf="loading == 'show'">
+        <img src="assets/img/loader.gif" alt="Cargando listado de tareas...">
+    </div>
+
+    <div class="col-md-12" *ngIf="!loading || task">
+        <h3>{{pageTitle}}</h3>
+
+        <div class="alert-success" *ngIf="statusTask == 'success'">
+            La tarea se ha creado correctamente
+        </div>
+
+        <div class="alert-danger" *ngIf="statusTask == 'error'">
+            La tarea no se ha creado
+        </div>
+
+        <form #taskNewForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-7 noPadding">
+            <div>
+                <label for="title">Titulo</label>
+                <input type="text" class="form-control" name="title" id="title"
+                       #title="ngModel" [(ngModel)]="task.title" required>
+                <span *ngIf="!title.valid && title.touched">El título no es válido</span>
+            </div>
+
+            <div>
+                <label for="description">Descripción</label>
+                <textarea class="form-control" name="description" id="description"
+                          #description="ngModel" [(ngModel)]="task.description">
+                </textarea>
+                <span *ngIf="!description.valid && description.touched">La descripción no es válida</span>
+            </div>
+
+            <div>
+                <label for="title">Estado</label>
+                <select name="status" id="status" class="form-control"
+                        #status="ngModel" [(ngModel)]="task.status">
+                    <option value="new">Nueva</option>
+                    <option value="todo">Para hacer</option>
+                    <option value="finished">Acabada</option>
+                </select>
+                <span *ngIf="!status.valid && status.touched">El estado no es válido</span>
+            </div>
+
+            <input type="submit" value="{{pageTitle}}" class="btn btn-success" [disabled]="!taskNewForm.form.valid">
+        </form>
+    </div>
+</div>
